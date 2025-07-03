@@ -233,25 +233,21 @@ ini_set('error_log', 'php_errors.log');
         });
       }
 
-      // Manejar cambio de categoría
       categoriaSelect.addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        const subcategorias = JSON.parse(selectedOption.getAttribute('data-subcats') || '[]');
-        
-        subcategoriaSelect.innerHTML = '<option value="" disabled selected>Selecciona una subcategoría</option>';
-        subcategorias.forEach(sub => {
-          const option = document.createElement('option');
-          option.value = sub.id;
-          option.textContent = sub;
-          subcategoriaSelect.appendChild(option);
-        });
-        
-        // Mostrar el select de subcategorías solo si hay subcategorías
-        subcategoriaSelect.style.display = subcategorias.length > 0 ? 'block' : 'none';
-        
-        // Siempre mostrar el botón para agregar subcategorías
-        btnAddSubcatModal.style.display = 'inline-block';
-      });
+  const selectedOption = this.options[this.selectedIndex];
+  const subcategorias = JSON.parse(selectedOption.getAttribute('data-subcats') || '[]');
+
+  subcategoriaSelect.innerHTML = '<option value="" disabled selected>Selecciona una subcategoría</option>';
+  subcategorias.forEach(sub => {
+    const option = document.createElement('option');
+    option.value = sub.id;
+    option.textContent = sub;
+    subcategoriaSelect.appendChild(option);
+  });
+
+  subcategoriaSelect.style.display = subcategorias.length > 0 ? 'block' : 'none';
+  btnAddSubcatModal.style.display = 'inline-block';
+});
 
       // Modal para agregar categoría
       btnAddCategoria.addEventListener('click', function() {
