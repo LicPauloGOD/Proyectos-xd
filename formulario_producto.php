@@ -241,7 +241,7 @@ ini_set('error_log', 'php_errors.log');
   subcategorias.forEach(sub => {
     const option = document.createElement('option');
     option.value = sub.id;
-    option.textContent = sub;
+    option.textContent = sub.nombre;
     subcategoriaSelect.appendChild(option);
   });
 
