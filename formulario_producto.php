@@ -1,14 +1,44 @@
 <?php
 
 // Registrar errores en un archivo de log
-ini_set('log_errors', 1);
-ini_set('error_log', 'php_errors.log');
-
-
+ini_set("log_errors", 1);
+ini_set("error_log", "php_errors.log");
 ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
+      
+      <style>
+  /* ESTILOS PARA LOS CHECKBOXES - SOLUCIÓN DEFINITIVA */
+  .form-check-custom {
+    display: flex !important;
+    align-items: center !important;
+    padding-left: 0 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .form-check-custom .form-check-input {
+    float: none !important;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
+    margin-top: 0 !important;
+  }
+  
+  .form-check-custom .form-check-label {
+    margin-bottom: 0 !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Ajuste específico para el checkbox de descuento */
+  #checkDescuento-container {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Asegurar que los grupos de formulario mantengan su espaciado */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+</style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,9 +58,9 @@ ini_set('error_log', 'php_errors.log');
   </head>
   <body>
     <div class="container-scroller">
-      <?php include 'navbar.php'; ?>
+      <?php include "navbar.php"; ?>
       <div class="container-fluid page-body-wrapper">
-        <?php include 'menu.php'; ?>
+        <?php include "menu.php"; ?>
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="row">
@@ -53,10 +83,17 @@ ini_set('error_log', 'php_errors.log');
                           <label for="precioProducto">Precio <span class="text-danger">*</span></label>
                           <input type="number" class="form-control" id="precioProducto" name="precio" placeholder="Precio" step="0.01" required>
                         </div>
-                        <div class="form-group">
-                          <label for="precioDescuento">Precio de descuento (%)</label>
-                          <input type="number" class="form-control" id="precioDescuento" name="precio_descuento" placeholder="Porcentaje de descuento" step="0.01">
-                        </div>
+                        <!-- Checkbox de descuento (columna izquierda) -->
+<div id="checkDescuento-container" class="form-check-custom">
+  <input type="checkbox" class="form-check-input" id="checkDescuento" name="usa_descuento">
+  <label class="form-check-label" for="checkDescuento">¿Agregar precio de descuento?</label>
+</div>
+
+
+<div class="form-group" id="grupoPrecioDescuento" style="display: none;">
+  <label for="precioDescuento">Precio de descuento</label>
+  <input type="number" class="form-control" id="precioDescuento" name="precio_descuento" placeholder="Precio con descuento" step="0.01">
+</div>
                         <div class="form-group">
                           <label for="stockDisponible">Stock disponible <span class="text-danger">*</span></label>
                           <input type="number" class="form-control" id="stockDisponible" name="stock" placeholder="Unidades disponibles" required>
@@ -109,14 +146,16 @@ ini_set('error_log', 'php_errors.log');
   <input type="file" name="img_secundaria_3" class="form-control" accept="image/*">
   <input type="hidden" name="img_secundaria_3_base64" id="imgSecundaria3Base64">
 </div>
-                        <div class="form-check mt-2">
-                          <input type="checkbox" class="form-check-input" id="destacado" name="destacado">
-                          <label class="form-check-label" for="destacado">¿Producto destacado?</label>
-                        </div>
-                        <div class="form-check mt-2">
-                          <input type="checkbox" class="form-check-input" id="activo" name="activo" checked>
-                          <label class="form-check-label" for="activo">¿Producto activo?</label>
-                        </div>
+                        <!-- Checkboxes de la columna derecha -->
+<div class="form-check-custom">
+  <input type="checkbox" class="form-check-input" id="destacado" name="destacado">
+  <label class="form-check-label" for="destacado">¿Producto destacado?</label>
+</div>
+
+<div class="form-check-custom">
+  <input type="checkbox" class="form-check-input" id="activo" name="activo" checked>
+  <label class="form-check-label" for="activo">¿Producto activo?</label>
+</div>
                       </div>
                     </div>
                     <div class="mt-3">
@@ -137,7 +176,7 @@ ini_set('error_log', 'php_errors.log');
                 </div>
               </div>
           </div>
-          <?php include 'footer.php'; ?>
+          <?php include "footer.php"; ?>
         </div>
       </div>
     </div>
@@ -552,6 +591,19 @@ document.querySelector('form').addEventListener('submit', async function(e) {
         btnSubmit.disabled = false;
         btnSubmit.innerHTML = originalBtnText;
     }
+});
+
+
+// Mostrar/ocultar el campo precio de descuento según el checkbox
+document.getElementById('checkDescuento').addEventListener('change', function() {
+  const grupo = document.getElementById('grupoPrecioDescuento');
+  if (this.checked) {
+    grupo.style.display = 'block';
+  } else {
+    grupo.style.display = 'none';
+    // Limpia el valor si lo ocultas
+    document.getElementById('precioDescuento').value = '';
+  }
 });
 
     });
