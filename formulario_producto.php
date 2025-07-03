@@ -445,7 +445,7 @@ document.querySelector('form').addEventListener('submit', function(e) {
                 title: '¡Éxito!',
                 text: 'Producto guardado correctamente',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 4000
             }).then(() => {
                 // Opcional: Redirigir o resetear el formulario
                 this.reset();
@@ -536,49 +536,46 @@ document.getElementById('imgInput').addEventListener('change', async function(e)
 // Manejar envío del formulario
 document.querySelector('form').addEventListener('submit', async function(e) {
     e.preventDefault();
-    
+
     const form = this;
     const btnSubmit = form.querySelector('button[type="submit"]');
     const originalBtnText = btnSubmit.innerHTML;
-    
+
     try {
         // Validación adicional
         if (!document.getElementById('imgBase64').value) {
             throw new Error("La imagen principal es requerida");
         }
-        
+
         // Mostrar estado de carga
         btnSubmit.disabled = true;
         btnSubmit.innerHTML = `
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Guardando...
         `;
-        
+
         // Enviar datos
         const response = await fetch('guardar_producto.php', {
             method: 'POST',
             body: new FormData(form)
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok || !data.success) {
-            throw new Error(data.message || 'Error al guardar el producto');
-        }
-        
-        await Swal.fire({
-            icon: 'success',
-            title: '¡Éxito!',
-            text: data.message,
-            timer: 2000,
-            showConfirmButton: false
-        });
-        
-        // Resetear formulario
-        form.reset();
-        document.getElementById('imgPreview').style.display = 'none';
-        document.querySelectorAll('[id$="Base64"]').forEach(el => el.value = '');
-        
+    throw new Error(data.message || 'Error al guardar el producto');
+}
+await Swal.fire({
+    icon: 'success',
+    title: '¡Éxito!',
+    text: data.message,
+    timer: 4000,
+    showConfirmButton: false
+});
+// Ahora sí, después del alert:
+form.reset();
+document.getElementById('imgPreview').style.display = 'none';
+document.querySelectorAll('[id$="Base64"]').forEach(el => el.value = '');
     } catch (error) {
         console.error('Error:', error);
         await Swal.fire({
