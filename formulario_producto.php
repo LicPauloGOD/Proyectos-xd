@@ -241,7 +241,7 @@ ini_set('error_log', 'php_errors.log');
         subcategoriaSelect.innerHTML = '<option value="" disabled selected>Selecciona una subcategoría</option>';
         subcategorias.forEach(sub => {
           const option = document.createElement('option');
-          option.value = sub;
+          option.value = sub.id;
           option.textContent = sub;
           subcategoriaSelect.appendChild(option);
         });
